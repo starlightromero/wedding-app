@@ -3,14 +3,11 @@ package main
 import (
 	"html/template"
 	"io"
-	"log"
 	"net/http"
-	"time"
 
+	"github.com/globalsign/mgo"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-	"gopkg.in/mgo.v2"
-	"gopkg.in/mgo.v2/bson"
 )
 
 var session, _ = mgo.Dial("127.0.0.1")
