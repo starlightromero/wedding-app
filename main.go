@@ -3,11 +3,18 @@ package main
 import (
 	"html/template"
 	"io"
+	"log"
 	"net/http"
+	"time"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
+	"gopkg.in/mgo.v2"
+	"gopkg.in/mgo.v2/bson"
 )
+
+var session, _ = mgo.Dial("127.0.0.1")
+var c = session.DB("WeddingDb").C("RSVP")
 
 type Template struct {
 	templates *template.Template
@@ -21,6 +28,9 @@ func main() {
 	t := &Template{
 		templates: template.Must(template.ParseGlob("public/views/*.html")),
 	}
+
+	session.SetMode(mgo.Monotonic, true)
+	defer session.Close()
 
 	e := echo.New()
 	e.Renderer = t
