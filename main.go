@@ -1,36 +1,19 @@
 package main
 
 import (
-	"html/template"
-	"io"
+	"log"
 	"net/http"
 
-	"github.com/globalsign/mgo"
+	//	"github.com/globalsign/mgo"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
 
-var session, _ = mgo.Dial("127.0.0.1")
-var c = session.DB("WeddingDb").C("RSVP")
-
-type Template struct {
-	templates *template.Template
-}
-
-func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Context) error {
-	return t.templates.ExecuteTemplate(w, name, data)
-}
+//var session, _ = mgo.Dial("127.0.0.1")
+//var c = session.DB("WeddingDb").C("RSVP")
 
 func main() {
-	t := &Template{
-		templates: template.Must(template.ParseGlob("public/views/*.html")),
-	}
-
-	session.SetMode(mgo.Monotonic, true)
-	defer session.Close()
-
 	e := echo.New()
-	e.Renderer = t
 
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		AllowOrigins: []string{"*"},
@@ -40,7 +23,12 @@ func main() {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
-	e.File("/", "public/views/home.html")
+	data, err := Asset("public/views/home.html")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	e.File("/", string(data))
 	e.POST("/", postRSVP)
 	e.GET("/health", getHealth)
 

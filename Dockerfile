@@ -11,6 +11,10 @@ RUN go mod download
 
 COPY . .
 
+RUN go install github.com/go-bindata/go-bindata/...@latest
+
+RUN go-bindata public/views/home.html
+
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build .
 
 FROM scratch
