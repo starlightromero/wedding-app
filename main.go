@@ -1,7 +1,6 @@
 package main
 
 import (
-	"log"
 	"net/http"
 
 	//	"github.com/globalsign/mgo"
@@ -23,12 +22,7 @@ func main() {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
-	data, err := Asset("public/views/home.html")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	e.File("/", string(data))
+	e.Static("/", "/public/views")
 	e.POST("/", postRSVP)
 	e.GET("/health", getHealth)
 

@@ -1,0 +1,8 @@
+version: "3.9"
+services:
+  wedding-app:
+    image: wedding-app
+    build: .
+    container_name: wedding-app
+    ports:
+      - 8080:8080
