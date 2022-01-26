@@ -2,20 +2,35 @@
 	<body>
 		<h1>Welcome to Starlight and Sid's Wedding</h1>
 		<p>Fill out the form below to RSVP. Please RSVP by March 30th.</p>
-		<form>
-			<label for="name">Name: </label>
-  			<input type="text" id="name" name="name"><br>
-			<p>Dietary Restrictions:</p>
-			<input type="checkbox" id="none" name="none" value="none">
-			<label for="none">None</label><br>
-			<input type="checkbox" id="vegetarian" name="vegetarian" value="vegetarian">
-			<label for="vegetarian">Vegetarian</label><br>
-			<input type="checkbox" id="vegan" name="vegan" value="vegan">
-			<label for="vegan">Vegan</label><br>
-			<input type="checkbox" id="othercheck" name="othercheck" value="othercheck">
-			<label for="othercheck">Other. Please specify below.</label><br>
-			<input type="text" id="other" name="other"><br><br>
-			<input type="submit" value="Submit">
+		<form action="/" method="POST">
+			<div>
+				<label for="name">Name:</label>
+  				<input type="text" id="name" name="name"><br>
+			</div>
+
+			<div>
+				<p>Dietary Restrictions:</p>
+				<input type="checkbox" id="none" name="none" value="None">
+				<label for="none">None</label><br>
+				<input type="checkbox" id="vegetarian" name="vegetarian" value="Vegetarian">
+				<label for="vegetarian">Vegetarian</label><br>
+				<input type="checkbox" id="vegan" name="vegan" value="Vegan">
+				<label for="vegan">Vegan</label><br>
+				<input type="checkbox" id="other" name="other" value="Other">
+				<label for="other">Other. Please specify below.</label><br>
+				<input type="text" id="otherDiet" name="otherDiet"><br>
+			</div>
+
+			<div>
+				<p>Attending: </p>
+				<input type="radio" id="attending" name="attending" value="attending">
+  				<label for="attending">Yes</label>
+				<input type="radio" id="not-attending" name="not-attending" value="not-attending">
+				<label for="not-attending">No</label><br><br>
+			</div>
+			<div>
+				<input type="submit" value="Submit">
+			</div>
 		</form>
 		<p>Gifts aren't required but are very much appreciated.</p>
 		<form>

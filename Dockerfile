@@ -16,7 +16,7 @@ RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build .
 FROM scratch
 
 COPY --from=build /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
-COPY --from=build /app/m /usr/bin/m
+COPY --from=build /app/wedding-app /usr/bin/wedding-app
 COPY --from=build /app/public/views/index.html /public/views/index.html
 
-ENTRYPOINT ["/usr/bin/m"]
+ENTRYPOINT ["/usr/bin/wedding-app"]

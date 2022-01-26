@@ -1,4 +1,8 @@
 **
+!/app
+!/controllers
+!/models
 !/go*
 !/*.go
+!/env
 !/public/views/index.html
