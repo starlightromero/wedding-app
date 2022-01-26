@@ -1,6 +1,7 @@
-package controllers
+package handlers
 
 import (
+	"fmt"
 	"net/http"
 	"log"
 	"strings"
@@ -15,13 +16,20 @@ func GetHealth(c echo.Context) error {
         return c.JSON(http.StatusOK, "healthy")
 }
 
-func GetRSVPs(c echo.Context) error {
+func GetAllRSVPs(c echo.Context) error {
 	rsvps := []models.RSVP{}
 	mgm.Coll(&models.RSVP{}).SimpleFind(&rsvps, bson.M{})
 	return c.JSON(http.StatusOK, rsvps)
 }
 
-func PostRSVP(c echo.Context) error {
+func GetOneRSVP(c echo.Context) error {
+	id := c.Param("id")
+	rsvp := &models.RSVP{}
+	mgm.Coll(rsvp).FindByID(id, rsvp)
+	return c.JSON(http.StatusOK, rsvp)
+}
+
+func CreateRSVP(c echo.Context) error {
         name := c.FormValue("name")
         attending := c.FormValue("attending")
 
@@ -67,3 +75,39 @@ func PostRSVP(c echo.Context) error {
         return c.String(http.StatusOK, "Thank you for RSVPing! name: "+name+" dietary restrictions: "+diet+" attending: "+attending)
 }
 
+func UpdateOneRSVP(c echo.Context) error {
+	id := c.Param("id")
+        rsvp := &models.RSVP{}
+        mgm.Coll(rsvp).FindByID(id, rsvp)
+
+	// rsvp.Name = "Moulin Rouge!"
+	err := mgm.Coll(rsvp).Update(rsvp)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return c.JSON(http.StatusOK, "")
+}
+
+func DeleteOneRSVP(c echo.Context) error {
+	id := c.Param("id")
+        rsvp := &models.RSVP{}
+        mgm.Coll(rsvp).FindByID(id, rsvp)
+
+	err := mgm.Coll(rsvp).Delete(rsvp)
+	if err != nil {
+		log.Fatal(err)
+	}
+	return c.JSON(http.StatusOK, rsvp)
+}
+
+func CustomHTTPErrorHandler(err error, c echo.Context) {
+	code := http.StatusInternalServerError
+	if he, ok := err.(*echo.HTTPError); ok {
+		code = he.Code
+	}
+	c.Logger().Error(err)
+	errorPage := fmt.Sprintf("/public/views/%d.html", code)
+	if err := c.File(errorPage); err != nil {
+		c.Logger().Error(err)
+	}
+}

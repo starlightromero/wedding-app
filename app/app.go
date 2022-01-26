@@ -3,7 +3,7 @@ package app
 import (
 	"os"
 	"log"
-	"wedding-app/controllers"
+	"wedding-app/handlers"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -28,9 +28,16 @@ func Run() {
 	e.Use(middleware.Recover())
 
 	e.Static("/", "/public/views")
-	e.POST("/", controllers.PostRSVP)
-	e.GET("/rsvp", controllers.GetRSVPs)
-	e.GET("/health", controllers.GetHealth)
+	e.POST("/", handlers.CreateRSVP)
+	e.GET("/rsvp", handlers.GetAllRSVPs)
+	e.GET("/rsvp/:id", handlers.GetOneRSVP)
+	e.Static("/rsvp/update", "/public/views/update.html")
+	e.PATCH("/rsvp/:id", handlers.UpdateOneRSVP)
+	e.Static("/rsvp/delete", "/public/views/delete.html")
+	e.DELETE("/rsvp/:id", handlers.DeleteOneRSVP)
+	e.GET("/health", handlers.GetHealth)
+
+	e.HTTPErrorHandler = handlers.CustomHTTPErrorHandler
 
 	e.Logger.Fatal(e.Start(":8080"))
 }
