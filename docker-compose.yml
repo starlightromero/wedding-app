@@ -1,8 +1,7 @@
 version: "3.9"
 services:
   wedding-app:
-    image: wedding-app
-    build: .
+    image: starlightromero/wedding-app
     container_name: wedding-app
     env_file:
       - env/app.env
