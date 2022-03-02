@@ -1,14 +1,14 @@
 package app
 
 import (
-	"os"
 	"log"
+	"os"
 	"wedding-app/handlers"
 
+	"github.com/kamva/mgm/v3"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
-	"github.com/kamva/mgm/v3"
-        "go.mongodb.org/mongo-driver/mongo/options"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 func Run() {
@@ -29,16 +29,9 @@ func Run() {
 
 	e.Static("/", "/public/views")
 	e.POST("/", handlers.CreateRSVP)
-	e.GET("/rsvp", handlers.GetAllRSVPs)
-	e.GET("/rsvp/:id", handlers.GetOneRSVP)
-	e.Static("/rsvp/update", "/public/views/update.html")
-	e.PATCH("/rsvp/:id", handlers.UpdateOneRSVP)
-	e.Static("/rsvp/delete", "/public/views/delete.html")
-	e.DELETE("/rsvp/:id", handlers.DeleteOneRSVP)
 	e.GET("/health", handlers.GetHealth)
 
 	e.HTTPErrorHandler = handlers.CustomHTTPErrorHandler
 
 	e.Logger.Fatal(e.Start(":8080"))
 }
-
