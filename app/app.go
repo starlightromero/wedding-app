@@ -28,7 +28,6 @@ func Run() {
 	e.Use(middleware.Recover())
 
 	e.Static("/", "/public/views")
-	e.Static("/", "/public/styles")
 	e.POST("/", handlers.CreateRSVP)
 	e.GET("/health", handlers.GetHealth)
 
